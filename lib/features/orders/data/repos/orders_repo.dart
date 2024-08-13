@@ -6,4 +6,6 @@ abstract class OrdersRepo {
   Future<Either<Failure,List<OrderModel>>> getOrders();
   Future<Either<Failure, void>> claimOrder(int id);
   Future<Either<Failure, void>> closeShift();
+  Future<Either<Failure,OrderModel>> getCurrentOrder();
+  Future<Either<Failure, void>> closeOrder(int id);
 }

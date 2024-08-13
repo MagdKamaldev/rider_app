@@ -2,8 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tayaar/core/components/constants.dart';
+import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
 import 'package:tayaar/core/networks/errors/error_snckbar.dart';
+import 'package:tayaar/features/orders/UI/order_details_screen.dart';
+import 'package:tayaar/features/orders/UI/orders_screen.dart';
 import 'package:tayaar/features/orders/data/models/order_model.dart';
 import 'package:tayaar/features/orders/data/repos/orders_repo_impl.dart';
 import 'package:web_socket_channel/io.dart';
@@ -94,6 +97,7 @@ class OrdersCubit extends Cubit<OrdersState> {
         ));
       },
       (r) {
+        navigateAndFinish(context, const OrderDetailsScreen());
         emit(ClaimOrderSuccess());
       },
     );
@@ -111,6 +115,37 @@ class OrdersCubit extends Cubit<OrdersState> {
       },
       (r) {
         emit(CloseShiftSuccess());
+      },
+    );
+  }
+
+  OrderModel ? currentOrder;
+
+  void getOrder(){
+    emit(GetOrderLoading());
+    repo.getCurrentOrder().then((value) {
+      value.fold((l) {
+        emit(GetOrderError(message: l.message));
+      }, (r) {
+        currentOrder = r;
+        emit(GetOrderSuccess());
+      });
+    });
+  }
+
+  void closeOrder(BuildContext context,int id) async {
+    emit(CloseOrderLoading());
+    final response = await repo.closeOrder(id);
+    response.fold(
+      (l) {
+        showErrorSnackbar(context, l.message);
+        emit(CloseOrderError(
+          message: l.message,
+        ));
+      },
+      (r) {
+        navigateAndFinish(context, const OrdersScreen());
+        emit(CloseOrderSuccess());
       },
     );
   }

@@ -5,6 +5,7 @@ import 'package:tayaar/core/service_locator.dart/service_locator.dart';
 import 'package:tayaar/features/home/UI/home_screen.dart';
 import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
 import 'package:tayaar/features/login/logic/cubit/login_cubit.dart';
+import 'package:tayaar/features/orders/UI/order_details_screen.dart';
 import 'package:tayaar/features/orders/UI/orders_screen.dart';
 
 class CheckingInfo extends StatelessWidget {
@@ -19,7 +20,11 @@ class CheckingInfo extends StatelessWidget {
         listener: (context, state) {
           if (state is InfoSuccess) {
             if (state.info.data!.isInShift!) {
-              navigateAndFinish(context, const OrdersScreen());
+              if (state.info.data!.currentOrderId == 0) {
+                navigateAndFinish(context, const OrdersScreen());
+              } else {
+                navigateAndFinish(context, const OrderDetailsScreen());
+              }
             } else {
               navigateTo(
                   context,

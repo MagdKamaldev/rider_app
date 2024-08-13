@@ -65,4 +65,38 @@ class OrdersRepoImpl implements OrdersRepo {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, OrderModel>> getCurrentOrder() async {
+    try {
+      final response = await apiServices.get(
+          endPoint: ApiConstants.getCurrentOrder,
+          jwt: kTokenBox.get(kTokenBoxString).toString());
+      final OrderModel order = OrderModel.fromJson(response['data']);
+      return Right(order);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+    }
+  }
+  
+  @override
+  Future<Either<Failure, void>> closeOrder(int id) async{
+    try{
+      final response = await apiServices.post(
+          endPoint: ApiConstants.closeOrder,
+          data: {"order_id": id},
+          jwt: kTokenBox.get(kTokenBoxString).toString());
+      return const Right(null);
+    }catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+    }
+  }
 }

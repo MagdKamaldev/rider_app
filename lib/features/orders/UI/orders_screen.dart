@@ -44,7 +44,7 @@ class OrdersScreen extends StatelessWidget {
                                 .read<OrdersCubit>()
                                 .claimOrder(context, order.id!),
                             rejectPressed: () {
-                              // Implement reject functionality
+                              //TODO: Implement reject functionality
                             },
                             order: order,
                           );

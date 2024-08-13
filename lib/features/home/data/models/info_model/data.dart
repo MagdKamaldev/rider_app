@@ -13,6 +13,7 @@ class Data {
   String? locationUpdatedAt;
   bool? isAvailable;
   bool? isInShift;
+  int? currentOrderId;
 
   Data({
     this.id,
@@ -29,6 +30,7 @@ class Data {
     this.locationUpdatedAt,
     this.isAvailable,
     this.isInShift,
+    this.currentOrderId,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -50,6 +52,7 @@ class Data {
         locationUpdatedAt: json['location_updated_at'] as String?,
         isAvailable: json['is_available'] as bool?,
         isInShift: json['is_in_shift'] as bool?,
+        currentOrderId: json['current_order_id'] as int?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,5 +70,6 @@ class Data {
         'location_updated_at': locationUpdatedAt,
         'is_available': isAvailable,
         'is_in_shift': isInShift,
+        'current_order_id': currentOrderId,
       };
 }

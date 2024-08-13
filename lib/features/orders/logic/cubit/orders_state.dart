@@ -30,3 +30,21 @@ final class CloseShiftError extends OrdersState {
   final String message;
   CloseShiftError({required this.message});
 }
+
+final class GetOrderLoading extends OrdersState {}
+
+final class GetOrderSuccess extends OrdersState {}
+
+final class GetOrderError extends OrdersState {
+  final String message;
+  GetOrderError({required this.message});
+}
+
+final class CloseOrderLoading extends OrdersState {}
+
+final class CloseOrderSuccess extends OrdersState {}
+
+final class CloseOrderError extends OrdersState {
+  final String message;
+  CloseOrderError({required this.message});
+}
