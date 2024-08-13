@@ -5,7 +5,7 @@ import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/components/text_styles.dart';
 import 'package:tayaar/core/service_locator.dart/service_locator.dart';
 import 'package:tayaar/features/orders/UI/order_item.dart';
-import 'package:tayaar/features/orders/data/repos/orders_repo%7C_impl.dart';
+import 'package:tayaar/features/orders/data/repos/orders_repo_impl.dart';
 import 'package:tayaar/features/orders/logic/cubit/orders_cubit.dart';
 
 class OrdersScreen extends StatelessWidget {

@@ -5,7 +5,6 @@ import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
 import 'package:tayaar/core/networks/api_services/api_services.dart';
 import 'package:tayaar/core/networks/errors/error.dart';
-import 'package:tayaar/features/home/data/models/info_model/info_model.dart';
 import 'package:tayaar/features/home/data/models/zone_reponse/zone_reponse.dart';
 import 'package:tayaar/features/home/data/repos/zone_repo.dart';
 

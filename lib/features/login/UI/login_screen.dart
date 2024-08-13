@@ -4,10 +4,8 @@ import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/components/text_styles.dart';
 import 'package:tayaar/core/service_locator.dart/service_locator.dart';
 import 'package:tayaar/features/checkingInfo/checking_info_screen.dart';
-import 'package:tayaar/features/home/UI/home_screen.dart';
 import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
 import 'package:tayaar/features/login/logic/cubit/login_cubit.dart';
-import 'package:tayaar/features/orders/UI/orders_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

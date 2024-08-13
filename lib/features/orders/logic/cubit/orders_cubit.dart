@@ -1,12 +1,10 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
 import 'package:tayaar/core/networks/errors/error_snckbar.dart';
 import 'package:tayaar/features/orders/data/models/order_model.dart';
-import 'package:tayaar/features/orders/data/repos/orders_repo%7C_impl.dart';
+import 'package:tayaar/features/orders/data/repos/orders_repo_impl.dart';
 import 'package:web_socket_channel/io.dart';
 part 'orders_state.dart';
 
@@ -41,11 +39,9 @@ class OrdersCubit extends Cubit<OrdersState> {
         getOrders(context);
       },
       onError: (error) {
-        print('WebSocket error: $error');
         _reconnect(context); // Attempt to reconnect on error
       },
       onDone: () {
-        print('WebSocket connection closed');
         _reconnect(context); // Attempt to reconnect on closure
       },
     );
@@ -80,7 +76,6 @@ class OrdersCubit extends Cubit<OrdersState> {
         ));
       },
       (r) {
-        print(r[0].id);
         orders = r;
         emit(OrdersSuccess());
       },
