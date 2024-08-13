@@ -4,8 +4,10 @@ import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/features/orders/data/models/order_model.dart';
 
 class OrderDetailsWidget extends StatelessWidget {
+  final VoidCallback? acceptPressed;
+  final VoidCallback ?rejectPressed;
   final OrderModel order;
-  const OrderDetailsWidget({super.key, required this.order});
+  const OrderDetailsWidget({super.key, required this.order, required this.acceptPressed, required this.rejectPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class OrderDetailsWidget extends StatelessWidget {
                       height: 50,
                       child: defaultButton(
                         function: () {
-                          // Handle Accept button action
+                         acceptPressed!();
                         },
                         context: context,
                         text: "Accept",
@@ -114,7 +116,7 @@ class OrderDetailsWidget extends StatelessWidget {
                       height: 50,
                       child: defaultButton(
                         function: () {
-                          // Handle Reject button action
+                         rejectPressed!();
                         },
                         context: context,
                         text: "Reject",

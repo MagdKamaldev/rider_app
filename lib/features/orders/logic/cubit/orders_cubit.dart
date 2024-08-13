@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
@@ -78,6 +79,38 @@ class OrdersCubit extends Cubit<OrdersState> {
       (r) {
         orders = r;
         emit(OrdersSuccess());
+      },
+    );
+  }
+
+  void claimOrder(BuildContext context, int id) async {
+    emit(ClaimOrderLoading());
+    final response = await repo.claimOrder(id);
+    response.fold(
+      (l) {
+        showErrorSnackbar(context, l.message);
+        emit(ClaimOrderError(
+          message: l.message,
+        ));
+      },
+      (r) {
+        emit(ClaimOrderSuccess());
+      },
+    );
+  }
+
+  void closeShift(BuildContext context) async {
+    emit(CloseShiftLoading());
+    final response = await repo.closeShift();
+    response.fold(
+      (l) {
+        showErrorSnackbar(context, l.message);
+        emit(CloseShiftError(
+          message: l.message,
+        ));
+      },
+      (r) {
+        emit(CloseShiftSuccess());
       },
     );
   }

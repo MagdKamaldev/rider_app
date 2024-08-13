@@ -9,13 +9,11 @@ class LoginCubit extends Cubit<LoginStates> {
   final LoginRepositoryImpelemntation repoImpl;
   LoginCubit(this.repoImpl) : super(LoginInitial());
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
-  void login(BuildContext context) async {
+  void login(BuildContext context,String name,String password) async {
     emit(LoginLoadingState());
     final response =
-        await repoImpl.login(nameController.text, passwordController.text);
+        await repoImpl.login(name,password);
     response.fold(
       (l) {
         showErrorSnackbar(context, l.message);

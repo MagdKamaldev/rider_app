@@ -42,7 +42,6 @@ class ZonesCubit extends Cubit<ZonesState> {
       },
       (r) {
         navigateAndFinish(context, const OrdersScreen());
-        showErrorSnackbar(context, "sucess");
         emit(OpenShiftSuccess());
       },
     );
