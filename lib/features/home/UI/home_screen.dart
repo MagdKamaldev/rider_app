@@ -4,11 +4,14 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tayaar/core/components/colors.dart';
+import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/service_locator.dart/service_locator.dart';
 import 'package:tayaar/features/home/data/models/zone_reponse/zone_reponse.dart';
 import 'package:tayaar/features/home/data/repos/zone_repos_impl.dart';
 import 'package:tayaar/features/home/logic/cubit/zones_cubit.dart';
+import 'package:tayaar/features/login/UI/login_screen.dart';
+import 'package:tayaar/main.dart';
 
 class HomeScreen extends StatefulWidget {
   final int id;
@@ -34,6 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(onPressed: (){
+            navigateAndFinish(context, const LoginScreen());
+            token = null;
+             kTokenBox.delete(kTokenBoxString);
+          }, icon:  const Icon(Icons.logout,),color: AppColors.ivory,)
+        ],
         centerTitle: true,
         backgroundColor: AppColors.prussianBlue,
       ),
@@ -66,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Text(selectedItem!.name.toString());
                       },
                       itemAsString: (item) => item.name.toString(),
-                      onChanged: print,
+                      onChanged: (item) {
+                        selectedZone = item;
+                      },
                       selectedItem: selectedZone,
                     ),
                     SizedBox(
@@ -76,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         function: () {
                           context
                               .read<ZonesCubit>()
-                              .openShift(context, widget.id);
+                              .openShift(context, selectedZone!.id!);
                         },
                         context: context,
                         text: "Open Shift")

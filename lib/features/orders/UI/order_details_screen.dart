@@ -77,7 +77,7 @@ class OrderDetailsScreen extends StatelessWidget {
           ),
           defaultButton(function: () {
             context.read<OrdersCubit>().closeOrder(context, cubit.currentOrder!.id!);
-          }, context: context, text: "Finsish")
+          }, context: context, text: "Finish")
         ],
       ),
     );

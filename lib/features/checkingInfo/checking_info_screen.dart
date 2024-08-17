@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:tayaar/core/components/colors.dart';
 import 'package:tayaar/core/components/shared_components.dart';
+import 'package:tayaar/core/components/text_styles.dart';
 import 'package:tayaar/core/service_locator.dart/service_locator.dart';
 import 'package:tayaar/features/home/UI/home_screen.dart';
 import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
@@ -19,8 +22,8 @@ class CheckingInfo extends StatelessWidget {
       child: BlocListener<LoginCubit, LoginStates>(
         listener: (context, state) {
           if (state is InfoSuccess) {
-            if (state.info.data!.isInShift!) {
-              if (state.info.data!.currentOrderId == 0) {
+            if (LoginCubit.get(context).model!.data!.isInShift!) {
+              if (LoginCubit.get(context).model!.data!.currentOrderId! == 0) {
                 navigateAndFinish(context, const OrdersScreen());
               } else {
                 navigateAndFinish(context, const OrderDetailsScreen());
@@ -29,17 +32,23 @@ class CheckingInfo extends StatelessWidget {
               navigateTo(
                   context,
                   HomeScreen(
-                    id: state.info.data!.id!,
+                    id: LoginCubit.get(context).model!.data!.id!,
                   ));
             }
           }
         },
-        child: const Scaffold(
+        child:  Scaffold(
+
           body: SafeArea(
               child: Center(
-            child: Text(
-              "Checking Info ...!",
-            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width: 300,height:250,child: Lottie.asset("assets/animations/Animation - 1723638863478.json")),
+                const SizedBox(height: 50,),
+                Text("Loading...",style: TextStyles.headings.copyWith(color: AppColors.prussianBlue),)
+              ],
+            )
           )),
         ),
       ),
