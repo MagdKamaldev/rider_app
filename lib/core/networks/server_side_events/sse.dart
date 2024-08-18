@@ -1,41 +1,51 @@
 import 'dart:async';
-import 'package:universal_html/html.dart' as html;
+import 'package:dio/dio.dart';
+import 'package:tayaar/core/networks/api_constants.dart';
 
-class Sse {
-  final html.EventSource eventSource;
-  final StreamController<String> streamController;
+class SseService {
+  final Dio dio;
+  final String jwt;
+  late final StreamController<dynamic> _controller;
+  StreamSubscription<dynamic>? _subscription;
 
-  Sse._internal(this.eventSource, this.streamController);
-
-  factory Sse.connect({
-    required Uri uri,
-    bool withCredentials = false,
-    bool closeOnError = true,
-  }) {
-    final streamController = StreamController<String>();
-    final eventSource =
-        html.EventSource(uri.toString(), withCredentials: withCredentials);
-
-    eventSource.addEventListener('message', (html.Event message) {
-      streamController.add((message as html.MessageEvent).data as String);
-    });
-
-    ///close if the endpoint is not working
-    if (closeOnError) {
-      eventSource.onError.listen((event) {
-        eventSource.close();
-        streamController.close();
-      });
-    }
-    return Sse._internal(eventSource, streamController);
+  SseService(this.dio, this.jwt) {
+    _controller = StreamController.broadcast();
   }
 
-  Stream get stream => streamController.stream;
+  Stream<dynamic> get sseStream => _controller.stream;
 
-  bool isClosed() => streamController.isClosed;
+  void connectToSse() {
+    const sseUrl = '${ApiConstants.baseUrl}${ApiConstants.orderSse}';
 
-  void close() {
-    eventSource.close();
-    streamController.close();
+    dio.get(
+      sseUrl,
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $jwt',
+          'Accept': 'text/event-stream',
+        },
+        responseType: ResponseType.stream,
+      ),
+    ).then((response) {
+      _subscription = response.data.stream.listen(
+        (data) {
+          final event = String.fromCharCodes(data);
+          _controller.add(event);
+        },
+        onError: (error) {
+          _controller.addError(error);
+        },
+        onDone: () {
+          _controller.close();
+        },
+      );
+    }).catchError((error) {
+      print('Error connecting to SSE: $error');
+    });
+  }
+
+  void disconnectFromSse() {
+    _subscription?.cancel();
+    _controller.close();
   }
 }

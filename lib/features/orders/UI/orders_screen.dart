@@ -16,7 +16,7 @@ class OrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          OrdersCubit(getIt<OrdersRepoImpl>())..openSocket(context),
+          OrdersCubit(getIt<OrdersRepoImpl>())..startListeningToOrders(context),
       child: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
           return Scaffold(

@@ -11,6 +11,8 @@ import 'package:tayaar/main.dart';
 class LoginRepositoryImpelemntation implements LoginRepo {
   final ApiServices apiServices;
   LoginRepositoryImpelemntation({required this.apiServices});
+
+  String tokenn = "";
   @override
   Future<Either<Failure, String>> login(
       String username, String password) async {
@@ -21,6 +23,7 @@ class LoginRepositoryImpelemntation implements LoginRepo {
       );
 
       token = response["jwt"];
+      tokenn = token!;
       kTokenBox.put(kTokenBoxString, token);
       return Right(response["jwt"]);
     } catch (e) {

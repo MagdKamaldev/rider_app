@@ -46,9 +46,9 @@ dependencies:
   rxdart: ^0.28.0
   geolocator: ^13.0.1
   flutter_background: ^1.2.0
-  lottie: ^3.1.2
-  universal_html: ^2.2.4
   pretty_dio_logger: ^1.4.0
+  lottie: ^3.1.2
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:

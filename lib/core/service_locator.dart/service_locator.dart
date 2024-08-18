@@ -27,6 +27,7 @@ void setupLocator() {
   getIt.registerLazySingleton<OrdersRepoImpl>(
     () => OrdersRepoImpl(
       apiServices: getIt<ApiServices>(),
+      
     ),
   );
 }
