@@ -34,18 +34,18 @@ class LoginRepositoryImpelemntation implements LoginRepo {
 
   @override
   Future<Either<Failure, InfoModel>> getInfo() async {
-    try {
+   // try {
       final response = await apiServices.get(
           endPoint: ApiConstants.getInfo,
           jwt: kTokenBox.get(kTokenBoxString).toString());
-      final model = InfoModel.fromJson(response);
+      final model = InfoModel.fromJson(response["data"]);
       return Right(model);
-    } catch (e) {
-      if (e is DioException) {
-        return Left(ServerFailure.fromDioError(e));
-      } else {
-        return Left(ServerFailure(e.toString()));
-      }
-    }
+    // } catch (e) {
+      // if (e is DioException) {
+        // return Left(ServerFailure.fromDioError(e));
+      // } else {
+        // return Left(ServerFailure(e.toString()));
+      // }
+    // }
   }
 }

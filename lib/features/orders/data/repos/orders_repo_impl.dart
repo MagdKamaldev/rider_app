@@ -34,13 +34,13 @@ class OrdersRepoImpl implements OrdersRepo {
   }
 
   @override
-  Future<Either<Failure, void>> claimOrder(int id) async {
+  Future<Either<Failure, dynamic>> claimOrder(int id) async {
     try {
       final response = await apiServices.post(
           endPoint: ApiConstants.claimOrder,
           data: {"order_id": id},
           jwt: kTokenBox.get(kTokenBoxString).toString());
-      return const Right(null);
+      return Right(response);
     } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
@@ -51,12 +51,12 @@ class OrdersRepoImpl implements OrdersRepo {
   }
 
   @override
-  Future<Either<Failure, void>> closeShift() async {
+  Future<Either<Failure, dynamic>> closeShift() async {
     try {
       final response = await apiServices.get(
           endPoint: ApiConstants.closeShift,
           jwt: kTokenBox.get(kTokenBoxString).toString());
-      return const Right(null);
+      return Right(response);
     } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
@@ -82,16 +82,16 @@ class OrdersRepoImpl implements OrdersRepo {
       }
     }
   }
-  
+
   @override
-  Future<Either<Failure, void>> closeOrder(int id) async{
-    try{
+  Future<Either<Failure, dynamic>> closeOrder(int id) async {
+    try {
       final response = await apiServices.post(
           endPoint: ApiConstants.closeOrder,
           data: {"order_id": id},
           jwt: kTokenBox.get(kTokenBoxString).toString());
-      return const Right(null);
-    }catch (e) {
+      return Right(response);
+    } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
       } else {

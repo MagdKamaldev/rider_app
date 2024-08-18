@@ -12,9 +12,6 @@ import 'package:tayaar/features/orders/data/repos/orders_repo_impl.dart';
 import 'package:web_socket_channel/io.dart';
 part 'orders_state.dart';
 
-
-
-
 class OrdersCubit extends Cubit<OrdersState> {
   final OrdersRepoImpl repo;
   OrdersCubit(this.repo) : super(OrdersInitial());
@@ -24,7 +21,8 @@ class OrdersCubit extends Cubit<OrdersState> {
   Timer? _reconnectTimer;
 
   void openSocket(context) {
-    final wsUrl = Uri.parse("ws://${ApiConstants.serverIp}:3006/api/rider/OrderWS");
+    final wsUrl =
+        Uri.parse("ws://${ApiConstants.serverIp}:3006/api/rider/OrderWS");
     String token = kTokenBox.get(kTokenBoxString).toString();
 
     // Establish a new WebSocket connection
@@ -50,7 +48,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       },
     );
 
-     // Initial call to getOrders
+    // Initial call to getOrders
   }
 
   // Function to attempt reconnection with a delay
@@ -119,9 +117,9 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
-  OrderModel ? currentOrder;
+  OrderModel? currentOrder;
 
-  void getOrder(){
+  void getOrder() {
     emit(GetOrderLoading());
     repo.getCurrentOrder().then((value) {
       value.fold((l) {
@@ -133,7 +131,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     });
   }
 
-  void closeOrder(BuildContext context,int id) async {
+  void closeOrder(BuildContext context, int id) async {
     emit(CloseOrderLoading());
     final response = await repo.closeOrder(id);
     response.fold(

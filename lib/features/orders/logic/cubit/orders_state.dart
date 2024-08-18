@@ -13,7 +13,7 @@ final class OrdersError extends OrdersState {
   OrdersError({required this.message});
 }
 
-final class ClaimOrderLoading  extends OrdersState {}
+final class ClaimOrderLoading extends OrdersState {}
 
 final class ClaimOrderSuccess extends OrdersState {}
 

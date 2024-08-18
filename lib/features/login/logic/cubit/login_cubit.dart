@@ -11,11 +11,9 @@ class LoginCubit extends Cubit<LoginStates> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
 
-
-  void login(BuildContext context,String name,String password) async {
+  void login(BuildContext context, String name, String password) async {
     emit(LoginLoadingState());
-    final response =
-        await repoImpl.login(name,password);
+    final response = await repoImpl.login(name, password);
     response.fold(
       (l) {
         showErrorSnackbar(context, l.message);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tayaar/core/components/colors.dart';
 import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/features/orders/UI/build_details_row.dart';
-import 'package:tayaar/features/orders/UI/order_details_screen.dart';
 import 'package:tayaar/features/orders/data/models/order_model.dart';
 
 class OrderDetailsWidget extends StatefulWidget {
@@ -17,10 +16,10 @@ class OrderDetailsWidget extends StatefulWidget {
   });
 
   @override
-  _OrderDetailsWidgetState createState() => _OrderDetailsWidgetState();
+  OrderDetailsWidgetState createState() => OrderDetailsWidgetState();
 }
 
-class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
+class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
   bool isExpanded = false;
 
   @override
@@ -35,10 +34,9 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: AnimatedContainer(
-            decoration: BoxDecoration (
-              color: AppColors.prussianBlue,
-            borderRadius: BorderRadius.circular(13.0)
-          ),
+            decoration: BoxDecoration(
+                color: AppColors.prussianBlue,
+                borderRadius: BorderRadius.circular(13.0)),
             duration: const Duration(milliseconds: 200),
             margin: const EdgeInsets.all(8.0),
             padding: const EdgeInsets.all(16.0),
@@ -219,6 +217,4 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
       ),
     );
   }
-
-
 }

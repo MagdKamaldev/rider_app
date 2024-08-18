@@ -27,7 +27,7 @@ Widget defaultButton({
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!
-                .copyWith(color:textColor, fontSize: 16),
+                .copyWith(color: textColor, fontSize: 16),
           ),
         ));
 

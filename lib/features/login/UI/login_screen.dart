@@ -11,10 +11,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
   late final TextEditingController _passwordController;
@@ -96,7 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           defaultButton(
                             function: () {
                               if (_formKey.currentState!.validate()) {
-                                context.read<LoginCubit>().login(context,_nameController.text,_passwordController.text);
+                                context.read<LoginCubit>().login(
+                                    context,
+                                    _nameController.text,
+                                    _passwordController.text);
                               }
                             },
                             context: context,

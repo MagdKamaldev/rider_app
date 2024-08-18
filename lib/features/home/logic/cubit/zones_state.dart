@@ -7,7 +7,7 @@ final class ZonesInitial extends ZonesState {}
 final class ZonesLoading extends ZonesState {}
 
 final class ZonesSuccess extends ZonesState {
-  final List<ZoneReponse> zones;
+  final List<InfoModel> zones;
   ZonesSuccess({required this.zones});
 }
 

@@ -5,7 +5,7 @@ import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
 import 'package:tayaar/core/networks/api_services/api_services.dart';
 import 'package:tayaar/core/networks/errors/error.dart';
-import 'package:tayaar/features/home/data/models/zone_reponse/zone_reponse.dart';
+import 'package:tayaar/features/home/data/models/info_model/info_model.dart';
 import 'package:tayaar/features/home/data/repos/zone_repo.dart';
 
 class ZonesRepoImpl implements ZonesRepo {
@@ -13,16 +13,19 @@ class ZonesRepoImpl implements ZonesRepo {
   ZonesRepoImpl({required this.apiServices});
 
   @override
-  Future<Either<Failure, List<ZoneReponse>>> getzones() async {
+  Future<Either<Failure, List<InfoModel>>> getZones() async {
     try {
-      final response = await apiServices.getList(
-          endPoint: ApiConstants.fetchZones,
-          jwt: kTokenBox.get(kTokenBoxString).toString());
-      final List<dynamic> zonesJson = response;
+      final response = await apiServices.get(
+        endPoint: ApiConstants.fetchHubs,
+        jwt: kTokenBox.get(kTokenBoxString).toString(),
+      );
 
-      // Map the JSON array to a List<ZoneResponse>
-      final List<ZoneReponse> zones =
-          zonesJson.map((json) => ZoneReponse.fromJson(json)).toList();
+      // Extract the 'data' field which contains the list of zones
+      final List<dynamic> zonesJson = response['data'] as List<dynamic>;
+
+      // Map the JSON array to a List<InfoModel>
+      final List<InfoModel> zones =
+          zonesJson.map((json) => InfoModel.fromJson(json)).toList();
 
       return Right(zones);
     } catch (e) {

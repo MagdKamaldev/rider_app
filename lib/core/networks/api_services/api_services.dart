@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
 
 class ApiServices {
@@ -10,6 +11,7 @@ class ApiServices {
     String? jwt,
     dynamic data,
   }) async {
+   _dio.interceptors.add(PrettyDioLogger());
     _dio.options.headers = {
       "Authorization": "Bearer $jwt",
       "Content-Type": "application/json",
@@ -23,6 +25,7 @@ class ApiServices {
     required String endPoint,
     String? jwt,
   }) async {
+    _dio.interceptors.add(PrettyDioLogger());
     _dio.options.headers = {
       "Authorization": "Bearer $jwt",
       "Content-Type": "application/json",
@@ -36,6 +39,7 @@ class ApiServices {
     required dynamic data,
     String? jwt,
   }) async {
+    _dio.interceptors.add(PrettyDioLogger());
     _dio.options.headers = {
       "Authorization": "Bearer $jwt",
       "Content-Type": "application/json",
@@ -51,6 +55,7 @@ class ApiServices {
     required String token,
     String? contentType,
   }) async {
+    _dio.interceptors.add(PrettyDioLogger());
     var response = await _dio.post(
       url,
       data: body,
@@ -66,6 +71,7 @@ class ApiServices {
     dynamic data,
     String? jwt,
   }) async {
+    _dio.interceptors.add(PrettyDioLogger());
     _dio.options.headers = {
       "Authorization": "Bearer $jwt",
       "Content-Type": "application/json",
@@ -79,6 +85,7 @@ class ApiServices {
     required String endPoint,
     String? jwt,
   }) async {
+    _dio.interceptors.add(PrettyDioLogger());
     _dio.options.headers = {
       "Authorization": "Bearer $jwt",
       "Content-Type": "application/json",

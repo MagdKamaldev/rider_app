@@ -13,7 +13,8 @@ class Sse {
     bool closeOnError = true,
   }) {
     final streamController = StreamController<String>();
-    final eventSource = html.EventSource(uri.toString(), withCredentials: withCredentials);
+    final eventSource =
+        html.EventSource(uri.toString(), withCredentials: withCredentials);
 
     eventSource.addEventListener('message', (html.Event message) {
       streamController.add((message as html.MessageEvent).data as String);

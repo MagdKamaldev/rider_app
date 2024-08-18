@@ -7,7 +7,7 @@ import 'package:tayaar/core/components/colors.dart';
 import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/service_locator.dart/service_locator.dart';
-import 'package:tayaar/features/home/data/models/zone_reponse/zone_reponse.dart';
+import 'package:tayaar/features/home/data/models/info_model/info_model.dart';
 import 'package:tayaar/features/home/data/repos/zone_repos_impl.dart';
 import 'package:tayaar/features/home/logic/cubit/zones_cubit.dart';
 import 'package:tayaar/features/login/UI/login_screen.dart';
@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ZoneReponse? selectedZone;
+  InfoModel? selectedZone;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: [
-          IconButton(onPressed: (){
-            navigateAndFinish(context, const LoginScreen());
-            token = null;
-             kTokenBox.delete(kTokenBoxString);
-          }, icon:  const Icon(Icons.logout,),color: AppColors.ivory,)
+          IconButton(
+            onPressed: () {
+              navigateAndFinish(context, const LoginScreen());
+              token = null;
+              kTokenBox.delete(kTokenBoxString);
+            },
+            icon: const Icon(
+              Icons.logout,
+            ),
+            color: AppColors.ivory,
+          )
         ],
         centerTitle: true,
         backgroundColor: AppColors.prussianBlue,
@@ -70,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    DropdownSearch<ZoneReponse>(
+                    DropdownSearch<InfoModel>(
                       items: state.zones,
                       dropdownBuilder: (context, selectedItem) {
                         return Text(selectedItem!.name.toString());
