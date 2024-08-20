@@ -8,4 +8,5 @@ abstract class OrdersRepo {
   Future<Either<Failure, dynamic>> closeShift();
   Future<Either<Failure, OrderModel>> getCurrentOrder();
   Future<Either<Failure, dynamic>> closeOrder(int id);
+  Future<Either<Failure, int>> fetchQueueNumber();
 }

@@ -12,7 +12,6 @@ class LoginRepositoryImpelemntation implements LoginRepo {
   final ApiServices apiServices;
   LoginRepositoryImpelemntation({required this.apiServices});
 
-  String tokenn = "";
   @override
   Future<Either<Failure, String>> login(
       String username, String password) async {
@@ -23,7 +22,6 @@ class LoginRepositoryImpelemntation implements LoginRepo {
       );
 
       token = response["jwt"];
-      tokenn = token!;
       kTokenBox.put(kTokenBoxString, token);
       return Right(response["jwt"]);
     } catch (e) {
@@ -37,18 +35,21 @@ class LoginRepositoryImpelemntation implements LoginRepo {
 
   @override
   Future<Either<Failure, InfoModel>> getInfo() async {
-   // try {
+    try {
       final response = await apiServices.get(
           endPoint: ApiConstants.getInfo,
           jwt: kTokenBox.get(kTokenBoxString).toString());
       final model = InfoModel.fromJson(response["data"]);
       return Right(model);
-    // } catch (e) {
-      // if (e is DioException) {
-        // return Left(ServerFailure.fromDioError(e));
-      // } else {
-        // return Left(ServerFailure(e.toString()));
-      // }
-    // }
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response!.statusCode == 401) {
+          return Left(ServerFailure("Unauthorized"));
+        }
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+     }
   }
 }

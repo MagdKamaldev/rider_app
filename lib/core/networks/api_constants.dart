@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String serverIp = "localhost";
+  static const String serverIp = "192.168.1.2";
   static const String baseUrl = 'http://$serverIp:3006/api/';
   static const String login = 'login';
   static const String fetchHubs = 'protected/FetchHubs';
@@ -11,4 +11,5 @@ class ApiConstants {
   static const String getCurrentOrder = "rider/FetchCurrentOrder";
   static const String closeOrder = "rider/CloseOrder";
   static const String orderSse = "rider/OrdersSSE";
+  static const String fetchqueueNumebr = "rider/FetchQueueNo";
 }

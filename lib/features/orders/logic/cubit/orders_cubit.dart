@@ -21,21 +21,22 @@ class OrdersCubit extends Cubit<OrdersState> {
   final SseService sseService =
       SseService(Dio(), kTokenBox.get(kTokenBoxString));
 
-  void startListeningToOrders(context) {
-    sseService.connectToSse();
+  void startListeningToOrders(context) async {
+    await sseService.connectToSse();
+
     sseService.sseStream.listen(
       (event) {
-        print('New SSE Event: $event');
+        fetchQueueNumber();
         getOrders(context);
       },
       onError: (error) {
-        showErrorSnackbar(context,error.toString());
+        showErrorSnackbar(context, error.toString());
       },
+      cancelOnError: false,
     );
   }
 
-
-void stopListeningToOrders() {
+  void stopListeningToOrders() {
     sseService.disconnectFromSse();
   }
 
@@ -115,8 +116,27 @@ void stopListeningToOrders() {
         ));
       },
       (r) {
+        fetchQueueNumber();
         navigateAndFinish(context, const OrdersScreen());
         emit(CloseOrderSuccess());
+      },
+    );
+  }
+
+  int? queueNumber;
+
+  Future<void> fetchQueueNumber() async {
+    emit(FetchQueueNumebrLoading());
+    final response = await repo.fetchQueueNumber();
+    response.fold(
+      (l) {
+        emit(FetchQueueNumebrError(message: l.message));
+        return;
+      },
+      (r) {
+        queueNumber = r;
+        emit(FetchQueueNumebrSuccess(queueNumber: r));
+        return;
       },
     );
   }

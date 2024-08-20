@@ -9,9 +9,14 @@ import 'package:tayaar/features/orders/UI/order_item.dart';
 import 'package:tayaar/features/orders/data/repos/orders_repo_impl.dart';
 import 'package:tayaar/features/orders/logic/cubit/orders_cubit.dart';
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
 
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -32,6 +37,12 @@ class OrdersScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
+                    if (OrdersCubit.get(context).queueNumber != null)
+                      Text(
+                        'Queue Number: ${OrdersCubit.get(context).queueNumber}',
+                        style: TextStyles.headings
+                            .copyWith(color: AppColors.prussianBlue),
+                      ),
                     const SizedBox(height: 20),
                     Flexible(
                       flex: 7,

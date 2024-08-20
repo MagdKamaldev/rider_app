@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/networks/errors/error_snckbar.dart';
 import 'package:tayaar/features/home/data/models/info_model/info_model.dart';
+import 'package:tayaar/features/login/UI/login_screen.dart';
 import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
 part 'login_state.dart';
 
@@ -34,6 +36,11 @@ class LoginCubit extends Cubit<LoginStates> {
 
     response.fold(
       (l) {
+        if(l.message == "Unauthorized"){
+          navigateAndFinish(context, const LoginScreen());
+          emit(InfoError("Unauthorized"));
+          return;
+        }
         showErrorSnackbar(context, l.message);
         emit(InfoError(
           l.message,

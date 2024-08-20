@@ -48,3 +48,15 @@ final class CloseOrderError extends OrdersState {
   final String message;
   CloseOrderError({required this.message});
 }
+
+final class FetchQueueNumebrLoading extends OrdersState {}
+
+final class FetchQueueNumebrSuccess extends OrdersState {
+  final int queueNumber;
+  FetchQueueNumebrSuccess({required this.queueNumber});
+}
+
+final class FetchQueueNumebrError extends OrdersState {
+  final String message;
+  FetchQueueNumebrError({required this.message});
+}

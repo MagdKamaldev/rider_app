@@ -44,11 +44,11 @@ dependencies:
   dropdown_search: ^5.0.6
   web_socket_channel: ^3.0.1
   rxdart: ^0.28.0
-  geolocator: ^13.0.1
   flutter_background: ^1.2.0
   pretty_dio_logger: ^1.4.0
   lottie: ^3.1.2
   http: ^1.2.2
+  location: ^6.0.2
 
 dev_dependencies:
   flutter_test:

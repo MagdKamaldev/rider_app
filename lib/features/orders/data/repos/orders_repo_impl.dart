@@ -99,4 +99,20 @@ class OrdersRepoImpl implements OrdersRepo {
       }
     }
   }
+  
+  @override
+  Future<Either<Failure, int>> fetchQueueNumber() async{
+    try {
+      final response = await apiServices.get(
+          endPoint: ApiConstants.fetchqueueNumebr,
+          jwt: kTokenBox.get(kTokenBoxString).toString());
+      return Right(response['queue_no']);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+    }
+  }
 }

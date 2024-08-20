@@ -14,9 +14,9 @@ class SseService {
 
   Stream<dynamic> get sseStream => _controller.stream;
 
-  void connectToSse() {
+  Future<void> connectToSse() async {
     const sseUrl = '${ApiConstants.baseUrl}${ApiConstants.orderSse}';
-
+  try {
     dio.get(
       sseUrl,
       options: Options(
@@ -39,9 +39,13 @@ class SseService {
           _controller.close();
         },
       );
-    }).catchError((error) {
-      print('Error connecting to SSE: $error');
     });
+    
+  } catch (e) {
+ print('Error connecting to SSE: $e');
+  }
+  
+  
   }
 
   void disconnectFromSse() {

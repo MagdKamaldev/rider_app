@@ -25,7 +25,7 @@ class ApiServices {
     required String endPoint,
     String? jwt,
   }) async {
-    _dio.interceptors.add(PrettyDioLogger());
+   _dio.interceptors.add(PrettyDioLogger());
     _dio.options.headers = {
       "Authorization": "Bearer $jwt",
       "Content-Type": "application/json",
