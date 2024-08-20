@@ -44,7 +44,7 @@ class ZonesRepoImpl implements ZonesRepo {
       final response = await apiServices.post(
         endPoint: ApiConstants.startShift,
         data: {
-          "zone_id": id,
+          "hub_id": id,
           "lat": position.latitude,
           "lng": position.longitude
         },

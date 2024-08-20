@@ -41,15 +41,15 @@ class LoginRepositoryImpelemntation implements LoginRepo {
           jwt: kTokenBox.get(kTokenBoxString).toString());
       final model = InfoModel.fromJson(response["data"]);
       return Right(model);
-  //  } catch (e) {
+  // } catch (e) {
    //   if (e is DioException) {
-   //     if (e.response!.statusCode == 401) {
-   //       return Left(ServerFailure("Unauthorized"));
-   //     }
+    //    if (e.response!.statusCode == 401) {
+    //      return Left(ServerFailure("Unauthorized"));
+    //    }
    //     return Left(ServerFailure.fromDioError(e));
-  //    } else {
+    //  } else {
    //     return Left(ServerFailure(e.toString()));
    //   }
-  //   }
+   //  }
   }
 }

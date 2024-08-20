@@ -17,6 +17,9 @@ class LoginCubit extends Cubit<LoginStates> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
 
+  InfoModel? model;
+  Position? myPosition;
+
 
   void login(BuildContext context, String name, String password) async {
     emit(LoginLoadingState());
@@ -32,31 +35,50 @@ class LoginCubit extends Cubit<LoginStates> {
     );
   }
 
-  InfoModel? model;
-  Position? myPosition;
 
-  void handleLocationPermissions(BuildContext context) async {
-    emit(GetLocationLoading());
+
+
+
+
+
+
+
+Future<LocationPermission> checkAndRequestPermissions() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        emit(GetLocationError("Location permissions denied"));
-        return;
-      }
     }
-    if (permission == LocationPermission.deniedForever) {
+    return permission;
+  }
+
+  Future<Position?> getCurrentLocation() async {
+    LocationPermission permission = await checkAndRequestPermissions();
+    if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
       emit(GetLocationError("Location permissions denied"));
-      return;
+      return null;
     }
 
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    emit(GetLocationSuccess(position: position));
-    myPosition = position;
-   // print("Current Position: ${position.latitude}, ${position.longitude}");
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      print("Current Position: ${position.latitude}, ${position.longitude}");
+      return position;
+    } catch (e) {
+      emit(GetLocationError("Failed to get location: $e"));
+      return null;
+    }
   }
+
+  void handleLocationPermissions(BuildContext context) async {
+    emit(GetLocationLoading());
+    Position? position = await getCurrentLocation();
+    if (position != null) {
+      myPosition = position;
+      emit(GetLocationSuccess(position: position));
+    }
+  }
+
 
   void getInfo(BuildContext context) async {
     emit(InfoLoading());

@@ -22,6 +22,7 @@ class CheckingInfo extends StatelessWidget {
       child: BlocListener<LoginCubit, LoginStates>(
         listener: (context, state) {
           if (state is GetLocationSuccess) {
+          //  print("Location permission granted");
             LoginCubit.get(context).getInfo(context);
           }
           if (state is InfoSuccess) {
