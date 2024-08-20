@@ -11,8 +11,8 @@ class InfoModel {
   String? mobileNumber;
   int? hubId;
   String? hubName;
-  int? lat;
-  int? lng;
+  dynamic lat;
+  dynamic lng;
   DateTime? locationUpdatedAt; // Changed to DateTime
   bool? isAvailable;
   bool? isInShift;
@@ -60,8 +60,8 @@ class InfoModel {
         mobileNumber: json['mobile_number'] as String?,
         hubId: json['hub_id'] as int?,
         hubName: json['hub_name'] as String?,
-        lat: json['lat'] as int?,
-        lng: json['lng'] as int?,
+        lat: json['lat'],
+        lng: json['lng'],
         locationUpdatedAt: json['location_updated_at'] == null
             ? null
             : DateTime.parse(json['location_updated_at'] as String), // Updated parsing

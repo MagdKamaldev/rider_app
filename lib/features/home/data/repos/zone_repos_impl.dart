@@ -35,54 +35,41 @@ class ZonesRepoImpl implements ZonesRepo {
       } else {
         return Left(ServerFailure(e.toString()));
       }
-    }
+   }
   }
 
+  @override
+  Future<Either<Failure, dynamic>> startShift(int id, Position position) async {
+    try {
+      final response = await apiServices.post(
+        endPoint: ApiConstants.startShift,
+        data: {
+          "zone_id": id,
+          "lat": position.latitude,
+          "lng": position.longitude
+        },
+        jwt: kTokenBox.get(kTokenBoxString).toString(),
+      );
 
-
-
-
-
-
-
-
-
-@override
-Future<Either<Failure, dynamic>> startShift(int id,Position position) async {
-  try {
-    final response = await apiServices.post(
-      endPoint: ApiConstants.startShift,
-      data: {"zone_id": id,"lat":position.latitude,"lng":position.longitude},
-      jwt: kTokenBox.get(kTokenBoxString).toString(),
-    );
-
-    // Check if the status code is 423
-    if (response['statusCode'] == 423) {
-      return Left(ServerFailure("Shift cannot be started: ${response['message']}"));
-    }
-
-    // Return success if status code is not 423
-    return const Right(null);
-
-  } catch (e) {
-    if (e is DioException) {
-      // Handling specific Dio errors
-      if (e.response?.statusCode == 423) {
-        return Left(ServerFailure("Shift cannot be started: ${e.response?.data['message']}"));
+      // Check if the status code is 423
+      if (response['statusCode'] == 423) {
+        return Left(
+            ServerFailure("Shift cannot be started: ${response['message']}"));
       }
-      return Left(ServerFailure.fromDioError(e));
-    } else {
-      return Left(ServerFailure(e.toString()));
+
+      // Return success if status code is not 423
+      return const Right(null);
+    } catch (e) {
+      if (e is DioException) {
+        // Handling specific Dio errors
+        if (e.response?.statusCode == 423) {
+          return Left(ServerFailure(
+              "Shift cannot be started: ${e.response?.data['message']}"));
+        }
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
     }
   }
-}
-
-
-
-
-
-
-
-
-
 }
