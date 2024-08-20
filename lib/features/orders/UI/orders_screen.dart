@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tayaar/core/components/colors.dart';
 import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/components/text_styles.dart';
@@ -17,6 +18,36 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
+   @override
+  void initState() {
+    super.initState();
+    _startBackgroundLocationTracking();
+  }
+
+  Future<void> _startBackgroundLocationTracking() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        // Handle the situation where the user denied the location permission
+        return;
+      }
+    }
+
+    // Start listening to the location in the background
+    Geolocator.getPositionStream(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 10, // distance in meters
+      ),
+    ).listen((Position position) {
+      print("Current position: ${position.latitude}, ${position.longitude}");
+      // Here, you can make API calls to update the rider's location on the server.
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

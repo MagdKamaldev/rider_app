@@ -3,6 +3,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tayaar/core/components/colors.dart';
 import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/components/shared_components.dart';
@@ -15,7 +16,8 @@ import 'package:tayaar/main.dart';
 
 class HomeScreen extends StatefulWidget {
   final int id;
-  const HomeScreen({super.key, required this.id});
+  final Position position;
+  const HomeScreen({super.key, required this.id, required this.position});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -94,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         function: () {
                           context
                               .read<ZonesCubit>()
-                              .openShift(context, selectedZone!.id!);
+                              .openShift(context, selectedZone!.id!,widget.position);
                         },
                         context: context,
                         text: "Open Shift")

@@ -23,6 +23,18 @@ final class InfoSuccess extends LoginStates {
   InfoSuccess({required this.info});
 }
 
+final class GetLocationLoading extends LoginStates {}
+
+final class GetLocationSuccess extends LoginStates {
+  final Position position;
+  GetLocationSuccess({required this.position});
+}
+
+final class GetLocationError extends LoginStates {
+  final String message;
+  GetLocationError(this.message);
+}
+
 final class InfoError extends LoginStates {
   final String message;
   InfoError(this.message);

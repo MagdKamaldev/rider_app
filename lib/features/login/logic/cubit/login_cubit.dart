@@ -1,10 +1,14 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tayaar/core/components/shared_components.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tayaar/core/networks/errors/error_snckbar.dart';
 import 'package:tayaar/features/home/data/models/info_model/info_model.dart';
 import 'package:tayaar/features/login/UI/login_screen.dart';
 import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
+import 'package:tayaar/core/components/shared_components.dart';
+
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
@@ -12,6 +16,7 @@ class LoginCubit extends Cubit<LoginStates> {
   LoginCubit(this.repoImpl) : super(LoginInitial());
 
   static LoginCubit get(context) => BlocProvider.of(context);
+
 
   void login(BuildContext context, String name, String password) async {
     emit(LoginLoadingState());
@@ -28,6 +33,30 @@ class LoginCubit extends Cubit<LoginStates> {
   }
 
   InfoModel? model;
+  Position? myPosition;
+
+  void handleLocationPermissions(BuildContext context) async {
+    emit(GetLocationLoading());
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        emit(GetLocationError("Location permissions denied"));
+        return;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      emit(GetLocationError("Location permissions denied"));
+      return;
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    emit(GetLocationSuccess(position: position));
+    myPosition = position;
+   // print("Current Position: ${position.latitude}, ${position.longitude}");
+  }
 
   void getInfo(BuildContext context) async {
     emit(InfoLoading());
@@ -36,19 +65,16 @@ class LoginCubit extends Cubit<LoginStates> {
 
     response.fold(
       (l) {
-        if(l.message == "Unauthorized"){
+        if (l.message == "Unauthorized") {
           navigateAndFinish(context, const LoginScreen());
           emit(InfoError("Unauthorized"));
           return;
         }
         showErrorSnackbar(context, l.message);
-        emit(InfoError(
-          l.message,
-        ));
+        emit(InfoError(l.message));
       },
       (r) {
         model = r;
-        //TODO: shelha fel production
         Future.delayed(const Duration(milliseconds: 500), () {
           emit(InfoSuccess(info: model!));
         });

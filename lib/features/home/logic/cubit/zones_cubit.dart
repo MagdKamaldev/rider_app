@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/networks/errors/error_snckbar.dart';
 import 'package:tayaar/features/home/data/models/info_model/info_model.dart';
@@ -30,19 +31,21 @@ class ZonesCubit extends Cubit<ZonesState> {
     );
   }
 
-  void openShift(BuildContext context, int id) async {
+  void openShift(BuildContext context, int id,Position position) async {
     emit(OpenShifLoading());
-    final response = await repoImpl.startShift(id);
+    final response = await repoImpl.startShift(id,position);
     response.fold(
       (l) {
         showErrorSnackbar(context, l.message);
         emit(OpenShifError(
           l.message,
         ));
+        getZones(context);
       },
       (r) {
-        navigateAndFinish(context, const OrdersScreen());
-        emit(OpenShiftSuccess());
+
+       navigateAndFinish(context, const OrdersScreen());
+       emit(OpenShiftSuccess());
       },
     );
   }

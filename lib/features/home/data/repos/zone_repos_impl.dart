@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tayaar/core/components/constants.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
 import 'package:tayaar/core/networks/api_services/api_services.dart';
@@ -37,20 +38,51 @@ class ZonesRepoImpl implements ZonesRepo {
     }
   }
 
-  @override
-  Future<Either<Failure, void>> startShift(int id) async {
-    try {
-      final response = apiServices.post(
-          endPoint: ApiConstants.startShift,
-          data: {"zone_id": id},
-          jwt: kTokenBox.get(kTokenBoxString).toString());
-      return const Right(null);
-    } catch (e) {
-      if (e is DioException) {
-        return Left(ServerFailure.fromDioError(e));
-      } else {
-        return Left(ServerFailure(e.toString()));
+
+
+
+
+
+
+
+
+
+@override
+Future<Either<Failure, dynamic>> startShift(int id,Position position) async {
+  try {
+    final response = await apiServices.post(
+      endPoint: ApiConstants.startShift,
+      data: {"zone_id": id,"lat":position.latitude,"lng":position.longitude},
+      jwt: kTokenBox.get(kTokenBoxString).toString(),
+    );
+
+    // Check if the status code is 423
+    if (response['statusCode'] == 423) {
+      return Left(ServerFailure("Shift cannot be started: ${response['message']}"));
+    }
+
+    // Return success if status code is not 423
+    return const Right(null);
+
+  } catch (e) {
+    if (e is DioException) {
+      // Handling specific Dio errors
+      if (e.response?.statusCode == 423) {
+        return Left(ServerFailure("Shift cannot be started: ${e.response?.data['message']}"));
       }
+      return Left(ServerFailure.fromDioError(e));
+    } else {
+      return Left(ServerFailure(e.toString()));
     }
   }
+}
+
+
+
+
+
+
+
+
+
 }

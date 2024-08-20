@@ -17,10 +17,13 @@ class CheckingInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          LoginCubit(getIt<LoginRepositoryImpelemntation>())..getInfo(context),
+      create: (context) => LoginCubit(getIt<LoginRepositoryImpelemntation>())
+        ..handleLocationPermissions(context),
       child: BlocListener<LoginCubit, LoginStates>(
         listener: (context, state) {
+          if (state is GetLocationSuccess) {
+            LoginCubit.get(context).getInfo(context);
+          }
           if (state is InfoSuccess) {
             if (LoginCubit.get(context).model!.isInShift!) {
               if (LoginCubit.get(context).model!.currentOrderId! == 0) {
@@ -30,34 +33,43 @@ class CheckingInfo extends StatelessWidget {
               }
             } else {
               navigateTo(
-                  context,
-                  HomeScreen(
-                    id: LoginCubit.get(context).model!.id!,
-                  ));
+                context,
+                HomeScreen(
+                  id: LoginCubit.get(context).model!.id!,
+                  position: LoginCubit.get(context).myPosition!,
+                ),
+              );
             }
+          } else if (state is GetLocationError) {
+            // Handle the location error if needed
           }
         },
         child: Scaffold(
           body: SafeArea(
-              child: Center(
-                  child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                  width: 300,
-                  height: 250,
-                  child: Lottie.asset(
-                      "assets/animations/Animation - 1723638863478.json")),
-              const SizedBox(
-                height: 50,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    height: 250,
+                    child: Lottie.asset(
+                      "assets/animations/Animation - 1723638863478.json",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    "Loading...",
+                    style: TextStyles.headings.copyWith(
+                      color: AppColors.prussianBlue,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                "Loading...",
-                style:
-                    TextStyles.headings.copyWith(color: AppColors.prussianBlue),
-              )
-            ],
-          ))),
+            ),
+          ),
         ),
       ),
     );
