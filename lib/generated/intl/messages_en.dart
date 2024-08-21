@@ -49,9 +49,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "queueNumberText":
             MessageLookupByLibrary.simpleMessage("Queue Number: "),
         "rejectButton": MessageLookupByLibrary.simpleMessage("Reject"),
-        "selectZoneLabel":
-            MessageLookupByLibrary.simpleMessage("Select a Zone:"),
-        "selectZoneTitle": MessageLookupByLibrary.simpleMessage("Select Zone"),
+        "selectZoneLabel": MessageLookupByLibrary.simpleMessage("Select a Hub"),
+        "selectZoneTitle": MessageLookupByLibrary.simpleMessage("Select Hub"),
         "timeLabel": MessageLookupByLibrary.simpleMessage("Time:"),
         "unknownAddress":
             MessageLookupByLibrary.simpleMessage("Unknown Address"),

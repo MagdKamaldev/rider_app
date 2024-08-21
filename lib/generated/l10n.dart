@@ -60,20 +60,20 @@ class S {
     );
   }
 
-  /// `Select Zone`
+  /// `Select Hub`
   String get selectZoneTitle {
     return Intl.message(
-      'Select Zone',
+      'Select Hub',
       name: 'selectZoneTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select a Zone:`
+  /// `Select a Hub`
   String get selectZoneLabel {
     return Intl.message(
-      'Select a Zone:',
+      'Select a Hub',
       name: 'selectZoneLabel',
       desc: '',
       args: [],

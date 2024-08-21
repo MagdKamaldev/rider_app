@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "branchLabel": MessageLookupByLibrary.simpleMessage("الفرع:"),
         "clientLabel": MessageLookupByLibrary.simpleMessage("العميل:"),
         "closeShiftButton":
-            MessageLookupByLibrary.simpleMessage("إغلاق الشيفت"),
+            MessageLookupByLibrary.simpleMessage("إغلاق الوردية"),
         "currentOrderDetailsTitle":
             MessageLookupByLibrary.simpleMessage("تفاصيل الطلب الحالي"),
         "dateLabel": MessageLookupByLibrary.simpleMessage("التاريخ:"),
@@ -48,8 +48,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "queueNumberText": MessageLookupByLibrary.simpleMessage("رقم الدور: "),
         "rejectButton": MessageLookupByLibrary.simpleMessage("رفض"),
-        "selectZoneLabel": MessageLookupByLibrary.simpleMessage("اختر منطقة:"),
-        "selectZoneTitle": MessageLookupByLibrary.simpleMessage("اختر المنطقة"),
+        "selectZoneLabel": MessageLookupByLibrary.simpleMessage("اختر مركز:"),
+        "selectZoneTitle": MessageLookupByLibrary.simpleMessage("اختر المركز"),
         "timeLabel": MessageLookupByLibrary.simpleMessage("الوقت:"),
         "unknownAddress":
             MessageLookupByLibrary.simpleMessage("عنوان غير معروف"),
