@@ -12,7 +12,8 @@ import 'package:tayaar/features/home/data/models/info_model/info_model.dart';
 import 'package:tayaar/features/home/data/repos/zone_repos_impl.dart';
 import 'package:tayaar/features/home/logic/cubit/zones_cubit.dart';
 import 'package:tayaar/features/login/UI/login_screen.dart';
-import 'package:tayaar/main.dart';
+import 'package:tayaar/generated/l10n.dart';
+import 'package:tayaar/main.dart'; // Import localization
 
 class HomeScreen extends StatefulWidget {
   final int id;
@@ -31,9 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Select Zone',
-          style: TextStyle(
+        title: Text(
+          S.of(context).selectZoneTitle, // Use localized string
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -69,9 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Select a Zone:',
-                      style: TextStyle(
+                    Text(
+                      S.of(context).selectZoneLabel, // Use localized string
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: Colors.black87,
@@ -81,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     DropdownSearch<InfoModel>(
                       items: state.zones,
                       dropdownBuilder: (context, selectedItem) {
-                        return Text(selectedItem!.name.toString());
+                        return Text("    ${selectedItem!.name.toString()}     ");
                       },
                       itemAsString: (item) => item.name.toString(),
                       onChanged: (item) {
@@ -96,15 +97,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         function: () {
                           context
                               .read<ZonesCubit>()
-                              .openShift(context, selectedZone!.id!,widget.position);
+                              .openShift(context, selectedZone!.id!, widget.position);
                         },
                         context: context,
-                        text: "Open Shift")
+                        text: S.of(context).openShiftButton // Use localized string
+                    )
                   ],
                 ),
               );
             } else {
-              return const Center(child: Text("Error fetching zones"));
+              return Center(child: Text(S.of(context).errorFetchingZones)); // Use localized string
             }
           },
         ),

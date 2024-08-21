@@ -7,6 +7,7 @@ import 'package:tayaar/core/service_locator.dart/service_locator.dart';
 import 'package:tayaar/features/orders/UI/build_details_row.dart';
 import 'package:tayaar/features/orders/data/repos/orders_repo_impl.dart';
 import 'package:tayaar/features/orders/logic/cubit/orders_cubit.dart';
+import 'package:tayaar/generated/l10n.dart'; // Import localization
 
 class OrderDetailsScreen extends StatelessWidget {
   const OrderDetailsScreen({
@@ -22,7 +23,7 @@ class OrderDetailsScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                'Current Order Details',
+                S.of(context).currentOrderDetailsTitle, // Use localized string
                 style: TextStyles.headings,
               ),
               backgroundColor: AppColors.prussianBlue,
@@ -52,23 +53,23 @@ class OrderDetailsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildDetailRow(Icons.location_on, 'Address',
-                        cubit.currentOrder!.deliveryAddress),
+                    _buildDetailRow(Icons.location_on, S.of(context).addressLabel, // Use localized string
+                        cubit.currentOrder!.deliveryAddress,context),
                     const Divider(),
-                    _buildDetailRow(
-                        Icons.person, 'Client', cubit.currentOrder!.clientName),
+                    _buildDetailRow(Icons.person, S.of(context).clientLabel, // Use localized string
+                        cubit.currentOrder!.clientName,context),
                     const Divider(),
-                    _buildDetailRow(Icons.business, 'Branch',
-                        cubit.currentOrder!.branchName),
+                    _buildDetailRow(Icons.business, S.of(context).branchLabel, // Use localized string
+                        cubit.currentOrder!.branchName,context),
                     const Divider(),
-                    _buildDetailRow(Icons.confirmation_number, 'Order ID',
-                        cubit.currentOrder!.id?.toString()),
+                    _buildDetailRow(Icons.confirmation_number, S.of(context).orderIdLabel, // Use localized string
+                        cubit.currentOrder!.id?.toString(),context),
                     const Divider(),
-                    _buildDetailRow(Icons.calendar_today, 'Date',
-                        formatDate(cubit.currentOrder!.createdAt)),
+                    _buildDetailRow(Icons.calendar_today, S.of(context).dateLabel, // Use localized string
+                        formatDate(cubit.currentOrder!.createdAt),context),
                     const Divider(),
-                    _buildDetailRow(Icons.access_time, 'Time',
-                        formatTime(cubit.currentOrder!.createdAt)),
+                    _buildDetailRow(Icons.access_time, S.of(context).timeLabel, // Use localized string
+                        formatTime(cubit.currentOrder!.createdAt),context),
                   ],
                 ),
               ),
@@ -83,14 +84,15 @@ class OrderDetailsScreen extends StatelessWidget {
                       .closeOrder(context, cubit.currentOrder!.id!);
                 },
                 context: context,
-                text: "Finish")
+                text: S.of(context).finishButton // Use localized string
+            )
           ],
         ),
       );
     }
   }
 
-  Widget _buildDetailRow(IconData icon, String label, String? value) {
+  Widget _buildDetailRow(IconData icon, String label, String? value,BuildContext context) {
     return Row(
       children: [
         Icon(
@@ -112,7 +114,7 @@ class OrderDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                value ?? 'N/A',
+                value ?? S.of(context).nA, // Use localized string
                 style: const TextStyle(
                   color: AppColors.prussianBlue,
                   fontSize: 16,

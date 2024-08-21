@@ -3,6 +3,7 @@ import 'package:tayaar/core/components/colors.dart';
 import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/features/orders/UI/build_details_row.dart';
 import 'package:tayaar/features/orders/data/models/order_model.dart';
+import 'package:tayaar/generated/l10n.dart'; // Import localization
 
 class OrderDetailsWidget extends StatefulWidget {
   final VoidCallback? acceptPressed;
@@ -40,55 +41,55 @@ class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
             duration: const Duration(milliseconds: 200),
             margin: const EdgeInsets.all(8.0),
             padding: const EdgeInsets.all(16.0),
-            height: isExpanded ? 320 : 132,
+            height: isExpanded ? 350 : 132,
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:  CrossAxisAlignment.start,
                 children: [
                   if (isExpanded) ...[
                     // Expanded layout
                     buildDetailRow(
-                      'Address:',
+                      S.of(context).addressLabel, // Use localized string
                       widget.order.deliveryAddress,
                       isExpanded,
                     ),
                     buildDetailRow(
-                      'Client:',
+                      S.of(context).clientLabel, // Use localized string
                       widget.order.clientName,
                       isExpanded,
                     ),
                     buildDetailRow(
-                      'Branch:',
+                      S.of(context).branchLabel, // Use localized string
                       widget.order.branchName,
                       isExpanded,
                     ),
                     buildDetailRow(
-                      'Order ID:',
+                      S.of(context).orderIdLabel, // Use localized string
                       widget.order.id?.toString(),
                       isExpanded,
                     ),
                     buildDetailRow(
-                      'Date:',
+                      S.of(context).dateLabel, // Use localized string
                       formatDate(widget.order.createdAt),
                       isExpanded,
                     ),
                     buildDetailRow(
-                      'Zone ID:',
+                      S.of(context).zoneIdLabel, // Use localized string
                       widget.order.zoneId?.toString(),
                       isExpanded,
                     ),
                     buildDetailRow(
-                      'Time:',
+                      S.of(context).timeLabel, // Use localized string
                       formatTime(widget.order.createdAt),
                       isExpanded,
                     ),
                   ] else ...[
                     // Compact layout
                     Row(
-                      children: [
+                      children: [                      
                         Expanded(
                           child: Text(
-                            widget.order.deliveryAddress ?? 'Unknown Address',
+                            widget.order.deliveryAddress ?? S.of(context).unknownAddress, // Use localized string
                             style: const TextStyle(
                               color: AppColors.ivory,
                               fontSize: 20,
@@ -101,7 +102,7 @@ class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                         const SizedBox(width: 20),
                         Expanded(
                           child: Text(
-                            widget.order.clientName ?? 'Unknown Client',
+                            widget.order.clientName ?? S.of(context).unknownClient, // Use localized string
                             style: const TextStyle(
                               color: AppColors.ivory,
                               fontSize: 20,
@@ -114,7 +115,7 @@ class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                         const SizedBox(width: 20),
                         Expanded(
                           child: Text(
-                            widget.order.branchName ?? 'Unknown Branch',
+                            widget.order.branchName ?? S.of(context).unknownBranch, // Use localized string
                             style: const TextStyle(
                               color: AppColors.ivory,
                               fontSize: 20,
@@ -134,12 +135,12 @@ class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildDetailRow(
-                                'Order ID:',
+                                S.of(context).orderIdLabel, // Use localized string
                                 widget.order.id?.toString(),
                                 isExpanded,
                               ),
                               buildDetailRow(
-                                'Date:',
+                                S.of(context).dateLabel, // Use localized string
                                 formatDate(widget.order.createdAt),
                                 isExpanded,
                               ),
@@ -152,12 +153,12 @@ class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildDetailRow(
-                                'Zone ID:',
+                                S.of(context).zoneIdLabel, // Use localized string
                                 widget.order.zoneId?.toString(),
                                 isExpanded,
                               ),
                               buildDetailRow(
-                                'Time:',
+                                S.of(context).timeLabel, // Use localized string
                                 formatTime(widget.order.createdAt),
                                 isExpanded,
                               ),
@@ -181,11 +182,9 @@ class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                           child: SizedBox(
                             height: 50,
                             child: defaultButton(
-                              function: () {
-                                widget.acceptPressed!();
-                              },
+                              function: (){widget.acceptPressed!();},
                               context: context,
-                              text: "Accept",
+                              text: S.of(context).acceptButton, // Use localized string
                               color: AppColors.ivory,
                               textColor: AppColors.prussianBlue,
                             ),
@@ -196,11 +195,11 @@ class OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                           child: SizedBox(
                             height: 50,
                             child: defaultButton(
-                              function: () {
+                              function: (){
                                 widget.rejectPressed!();
-                              },
+                                },
                               context: context,
-                              text: "Reject",
+                              text: S.of(context).rejectButton, // Use localized string
                               color: Colors.red,
                               textColor: Colors.white,
                             ),

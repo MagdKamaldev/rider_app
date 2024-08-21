@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,6 +11,8 @@ import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
 import 'package:tayaar/core/components/shared_components.dart';
 
 part 'login_state.dart';
+
+late LocationSettings locationSettings;
 
 class LoginCubit extends Cubit<LoginStates> {
   final LoginRepositoryImpelemntation repoImpl;
@@ -52,15 +55,50 @@ Future<LocationPermission> checkAndRequestPermissions() async {
   }
 
   Future<Position?> getCurrentLocation() async {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+  locationSettings = AndroidSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100,
+      forceLocationManager: true,
+      intervalDuration: const Duration(seconds: 10),
+      //(Optional) Set foreground notification config to keep the app alive 
+      //when going to the background
+      foregroundNotificationConfig: const ForegroundNotificationConfig(
+        notificationText:
+        "Example app will continue to receive your location even when you aren't using it",
+        notificationTitle: "Running in Background",
+        enableWakeLock: true,
+      )
+  );
+} else if (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS) {
+  locationSettings = AppleSettings(
+    accuracy: LocationAccuracy.high,
+    activityType: ActivityType.fitness,
+    distanceFilter: 100,
+
+  );
+} else if (kIsWeb) {
+  locationSettings = WebSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+    maximumAge: Duration(minutes: 5),
+  );
+} else {
+  locationSettings = LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
+}
     LocationPermission permission = await checkAndRequestPermissions();
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
       emit(GetLocationError("Location permissions denied"));
       return null;
     }
-
+   
     try {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
+        locationSettings: locationSettings,
       );
       print("Current Position: ${position.latitude}, ${position.longitude}");
       return position;
@@ -72,7 +110,9 @@ Future<LocationPermission> checkAndRequestPermissions() async {
 
   void handleLocationPermissions(BuildContext context) async {
     emit(GetLocationLoading());
+    print("Reached");
     Position? position = await getCurrentLocation();
+    print(position);
     if (position != null) {
       myPosition = position;
       emit(GetLocationSuccess(position: position));

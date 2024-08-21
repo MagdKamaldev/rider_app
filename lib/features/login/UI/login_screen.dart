@@ -6,6 +6,7 @@ import 'package:tayaar/core/service_locator.dart/service_locator.dart';
 import 'package:tayaar/features/checkingInfo/checking_info_screen.dart';
 import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
 import 'package:tayaar/features/login/logic/cubit/login_cubit.dart';
+import 'package:tayaar/generated/l10n.dart'; // Import localization
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -57,7 +58,7 @@ class LoginScreenState extends State<LoginScreen> {
                       children: [
                         SizedBox(height: size.height * 0.1),
                         Text(
-                          "Tayaar App",
+                          S.of(context).appTitle, // Use localized string
                           style: TextStyles.normal,
                         ),
                         SizedBox(height: size.height * 0.1),
@@ -67,11 +68,11 @@ class LoginScreenState extends State<LoginScreen> {
                           onSubmit: () {},
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return "Please enter a value!";
+                              return S.of(context).enterName; // Use localized string
                             }
                             return null;
                           },
-                          label: "Name",
+                          label: S.of(context).nameLabel, // Use localized string
                           prefix: Icons.person,
                           context: context,
                         ),
@@ -82,11 +83,11 @@ class LoginScreenState extends State<LoginScreen> {
                           onSubmit: () {},
                           validate: (String? value) {
                             if (value!.isEmpty) {
-                              return "Please enter a value!";
+                              return S.of(context).enterPassword; // Use localized string
                             }
                             return null;
                           },
-                          label: "Password",
+                          label: S.of(context).passwordLabel, // Use localized string
                           prefix: Icons.lock,
                           isPassword: true,
                           context: context,
@@ -103,7 +104,7 @@ class LoginScreenState extends State<LoginScreen> {
                               }
                             },
                             context: context,
-                            text: "Login",
+                            text: S.of(context).loginButton, // Use localized string
                           ),
                         if (state is LoginLoadingState)
                           const Center(

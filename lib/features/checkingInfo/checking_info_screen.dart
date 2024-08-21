@@ -10,6 +10,7 @@ import 'package:tayaar/features/login/data/repos/login_repo_impl.dart';
 import 'package:tayaar/features/login/logic/cubit/login_cubit.dart';
 import 'package:tayaar/features/orders/UI/order_details_screen.dart';
 import 'package:tayaar/features/orders/UI/orders_screen.dart';
+import 'package:tayaar/generated/l10n.dart';
 
 class CheckingInfo extends StatelessWidget {
   const CheckingInfo({super.key});
@@ -22,7 +23,6 @@ class CheckingInfo extends StatelessWidget {
       child: BlocListener<LoginCubit, LoginStates>(
         listener: (context, state) {
           if (state is GetLocationSuccess) {
-          //  print("Location permission granted");
             LoginCubit.get(context).getInfo(context);
           }
           if (state is InfoSuccess) {
@@ -62,7 +62,7 @@ class CheckingInfo extends StatelessWidget {
                     height: 50,
                   ),
                   Text(
-                    "Loading...",
+                    S.of(context).loading,
                     style: TextStyles.headings.copyWith(
                       color: AppColors.prussianBlue,
                     ),

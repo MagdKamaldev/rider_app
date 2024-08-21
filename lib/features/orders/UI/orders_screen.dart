@@ -9,6 +9,7 @@ import 'package:tayaar/features/checkingInfo/checking_info_screen.dart';
 import 'package:tayaar/features/orders/UI/order_item.dart';
 import 'package:tayaar/features/orders/data/repos/orders_repo_impl.dart';
 import 'package:tayaar/features/orders/logic/cubit/orders_cubit.dart';
+import 'package:tayaar/generated/l10n.dart'; // Import localization
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
@@ -18,7 +19,7 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-   @override
+  @override
   void initState() {
     super.initState();
     _startBackgroundLocationTracking();
@@ -38,12 +39,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
     // Start listening to the location in the background
     Geolocator.getPositionStream(
-      locationSettings: LocationSettings(
+      locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.high,
         distanceFilter: 10, // distance in meters
       ),
     ).listen((Position position) {
-      print("Current position: ${position.latitude}, ${position.longitude}");
+      // print("Current position: ${position.latitude}, ${position.longitude}");
       // Here, you can make API calls to update the rider's location on the server.
     });
   }
@@ -59,7 +60,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             appBar: AppBar(
               backgroundColor: AppColors.prussianBlue,
               title: Text(
-                'Orders',
+                S.of(context).ordersTitle, // Use localized string
                 style: TextStyles.headings.copyWith(color: AppColors.ivory),
               ),
             ),
@@ -70,9 +71,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   children: [
                     if (OrdersCubit.get(context).queueNumber != null)
                       Text(
-                        'Queue Number: ${OrdersCubit.get(context).queueNumber}',
-                        style: TextStyles.headings
-                            .copyWith(color: AppColors.prussianBlue),
+                        "${S.of(context).queueNumberText} ${OrdersCubit.get(context).queueNumber!}", // Use localized string
+                        style: TextStyles.headings.copyWith(color: AppColors.prussianBlue),
                       ),
                     const SizedBox(height: 20),
                     Flexible(
@@ -105,7 +105,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             navigateAndFinish(context, const CheckingInfo());
                           },
                           context: context,
-                          text: "Close Shift",
+                          text: S.of(context).closeShiftButton, // Use localized string
                         ),
                       ),
                     ),
