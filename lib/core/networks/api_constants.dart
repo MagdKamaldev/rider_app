@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String serverIp = "172.20.10.7";
+  static const String serverIp = "165.22.31.49";
   static const String baseUrl = 'http://$serverIp:3006/api/';
   static const String login = 'login';
   static const String fetchHubs = 'protected/FetchHubs';

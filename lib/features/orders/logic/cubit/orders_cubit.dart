@@ -18,27 +18,56 @@ class OrdersCubit extends Cubit<OrdersState> {
   ) : super(OrdersInitial());
   static OrdersCubit get(context) => BlocProvider.of(context);
 
-  final SseService sseService =
+   final SseService sseService =
       SseService(Dio(), kTokenBox.get(kTokenBoxString));
+  
+  bool _isConnected = false;
+  final int _retryDelaySeconds = 5;
 
-  void startListeningToOrders(context) async {
-    await sseService.connectToSse();
+  void startListeningToOrders(BuildContext context) async {
+    await _connectToSse(context);
+  }
 
-    sseService.sseStream.listen(
-      (event) {
-        fetchQueueNumber();
-        getOrders(context);
-      },
-      onError: (error) {
-        showErrorSnackbar(context, error.toString());
-      },
-      cancelOnError: false,
-    );
+  Future<void> _connectToSse(BuildContext context) async {
+    try {
+      await sseService.connectToSse();
+      _isConnected = true;
+
+      sseService.sseStream.listen(
+        (event) {
+          fetchQueueNumber();
+          getOrders(context);
+        },
+        onError: (error) {
+          showErrorSnackbar(context, error.toString());
+          _handleReconnection(context);
+        },
+        onDone: () {
+          _handleReconnection(context);
+        },
+        cancelOnError: false,
+      );
+    } catch (e) {
+      showErrorSnackbar(context, e.toString());
+      _handleReconnection(context);
+    }
+  }
+
+  void _handleReconnection(BuildContext context) {
+    if (_isConnected) {
+      _isConnected = false;
+      emit(OrdersDisconnected());
+      Future.delayed(Duration(seconds: _retryDelaySeconds), () {
+        startListeningToOrders(context);
+      });
+    }
   }
 
   void stopListeningToOrders() {
     sseService.disconnectFromSse();
+    _isConnected = false;
   }
+
 
   List<OrderModel> orders = [];
 

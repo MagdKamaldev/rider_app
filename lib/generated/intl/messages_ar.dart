@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "acceptButton": MessageLookupByLibrary.simpleMessage("قبول"),
         "addressLabel": MessageLookupByLibrary.simpleMessage("العنوان:"),
-        "appTitle": MessageLookupByLibrary.simpleMessage("تطبيق تايّار"),
+        "appTitle": MessageLookupByLibrary.simpleMessage("طيار"),
         "branchLabel": MessageLookupByLibrary.simpleMessage("الفرع:"),
         "clientLabel": MessageLookupByLibrary.simpleMessage("العميل:"),
         "closeShiftButton":

@@ -60,3 +60,5 @@ final class FetchQueueNumebrError extends OrdersState {
   final String message;
   FetchQueueNumebrError({required this.message});
 }
+
+final class OrdersDisconnected extends OrdersState {}
