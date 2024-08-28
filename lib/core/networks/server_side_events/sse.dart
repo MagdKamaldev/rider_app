@@ -14,11 +14,11 @@ class SseService {
 
   Stream<dynamic> get sseStream => _controller.stream;
 
-  Future<void> connectToSse() async {
+  // Add a method to manage reconnections
+  Future<void> connectToSse({int retryCount = 0}) async {
     const sseUrl = '${ApiConstants.baseUrl}${ApiConstants.orderSse}';
     try {
-      dio
-          .get(
+      final response = await dio.get(
         sseUrl,
         options: Options(
           headers: {
@@ -27,23 +27,39 @@ class SseService {
           },
           responseType: ResponseType.stream,
         ),
-      )
-          .then((response) {
-        _subscription = response.data.stream.listen(
-          (data) {
-            final event = String.fromCharCodes(data);
-            _controller.add(event);
-          },
-          onError: (error) {
-            _controller.addError(error);
-          },
-          onDone: () {
-            _controller.close();
-          },
-        );
-      });
+      );
+
+      _subscription = response.data.stream.listen(
+        (data) {
+          final event = String.fromCharCodes(data);
+          _controller.add(event);
+        },
+        onError: (error) {
+          _controller.addError(error);
+          handleDisconnection(retryCount); // Handle disconnection on error
+        },
+        onDone: () {
+          handleDisconnection(retryCount); // Handle disconnection when stream is closed
+        },
+      );
     } catch (e) {
-      print('Error connecting to SSE: $e');
+      //print('Error connecting to SSE: $e');
+      handleDisconnection(retryCount); // Handle disconnection on catch
+    }
+  }
+
+  // Handle disconnections and retry connections
+  void handleDisconnection(int retryCount) {
+    _subscription?.cancel();
+    _controller.addError('Disconnected from SSE');
+
+    // Retry mechanism with exponential backoff
+    if (retryCount < 5) {
+      final delay = Duration(seconds: 2 * (retryCount + 1));
+      //print('Attempting to reconnect in ${delay.inSeconds} seconds...');
+      Future.delayed(delay, () => connectToSse(retryCount: retryCount + 1));
+    } else {
+      //print('Max retries reached. Could not reconnect to SSE.');
     }
   }
 

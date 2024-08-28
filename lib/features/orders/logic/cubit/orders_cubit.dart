@@ -18,15 +18,12 @@ class OrdersCubit extends Cubit<OrdersState> {
   ) : super(OrdersInitial());
   static OrdersCubit get(context) => BlocProvider.of(context);
 
-  final SseService sseService =
-      SseService(Dio(), kTokenBox.get(kTokenBoxString));
+  final SseService sseService = SseService(Dio(), kTokenBox.get(kTokenBoxString));
 
   void startListeningToOrders(context) {
-    
     sseService.connectToSse();
     sseService.sseStream.listen(
       (event) {
-       // print('New SSE Event: $event');
         getOrders(context);
         fetchQueueNumber();
       },
@@ -39,6 +36,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   void stopListeningToOrders() {
     sseService.disconnectFromSse();
   }
+
 
   List<OrderModel> orders = [];
 
