@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorFetchingZones":
             MessageLookupByLibrary.simpleMessage("Error fetching zones"),
         "finishButton": MessageLookupByLibrary.simpleMessage("Finish"),
+        "hubName": MessageLookupByLibrary.simpleMessage("Hub Name"),
         "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
         "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
         "nA": MessageLookupByLibrary.simpleMessage("N/A"),
@@ -56,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sseRestoration": MessageLookupByLibrary.simpleMessage(
             "Connection restored successfully !"),
         "timeLabel": MessageLookupByLibrary.simpleMessage("Time:"),
+        "todayOrders": MessageLookupByLibrary.simpleMessage("Today\'s Orders"),
         "unknownAddress":
             MessageLookupByLibrary.simpleMessage("Unknown Address"),
         "unknownBranch": MessageLookupByLibrary.simpleMessage("Unknown Branch"),

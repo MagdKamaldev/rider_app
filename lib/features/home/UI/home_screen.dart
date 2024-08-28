@@ -18,7 +18,9 @@ import 'package:tayaar/main.dart'; // Import localization
 class HomeScreen extends StatefulWidget {
   final int id;
   final Position position;
-  const HomeScreen({super.key, required this.id, required this.position});
+  final String hubName;
+  final int todaysOrders;
+  const HomeScreen({super.key, required this.id, required this.position, required this.hubName, required this.todaysOrders});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -97,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         function: () {
                           context
                               .read<ZonesCubit>()
-                              .openShift(context, selectedZone!.id!, widget.position);
+                              .openShift(context, selectedZone!.id!, widget.position,widget.hubName,widget.todaysOrders);
                         },
                         context: context,
                         text: S.of(context).openShiftButton // Use localized string

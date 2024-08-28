@@ -359,6 +359,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Hub Name`
+  String get hubName {
+    return Intl.message(
+      'Hub Name',
+      name: 'hubName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today's Orders`
+  String get todayOrders {
+    return Intl.message(
+      'Today\'s Orders',
+      name: 'todayOrders',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

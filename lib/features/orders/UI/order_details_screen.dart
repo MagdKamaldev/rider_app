@@ -10,8 +10,10 @@ import 'package:tayaar/features/orders/logic/cubit/orders_cubit.dart';
 import 'package:tayaar/generated/l10n.dart'; // Import localization
 
 class OrderDetailsScreen extends StatelessWidget {
+  final String hubName;
+  final int todaysOrders;
   const OrderDetailsScreen({
-    super.key,
+    super.key, required this.hubName, required this.todaysOrders,
   });
 
   @override
@@ -81,7 +83,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 function: () {
                   context
                       .read<OrdersCubit>()
-                      .closeOrder(context, cubit.currentOrder!.id!);
+                      .closeOrder(context, cubit.currentOrder!.id!, hubName, todaysOrders);
                 },
                 context: context,
                 text: S.of(context).finishButton // Use localized string

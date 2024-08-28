@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorFetchingZones":
             MessageLookupByLibrary.simpleMessage("خطأ في جلب المناطق"),
         "finishButton": MessageLookupByLibrary.simpleMessage("إنهاء"),
+        "hubName": MessageLookupByLibrary.simpleMessage("اسم المركز"),
         "loading": MessageLookupByLibrary.simpleMessage("جار التحميل..."),
         "loginButton": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "nA": MessageLookupByLibrary.simpleMessage("غير متوفر"),
@@ -55,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sseRestoration":
             MessageLookupByLibrary.simpleMessage("تم استعادة الاتصال بنجاح !"),
         "timeLabel": MessageLookupByLibrary.simpleMessage("الوقت:"),
+        "todayOrders": MessageLookupByLibrary.simpleMessage("طلبات اليوم"),
         "unknownAddress":
             MessageLookupByLibrary.simpleMessage("عنوان غير معروف"),
         "unknownBranch": MessageLookupByLibrary.simpleMessage("فرع غير معروف"),

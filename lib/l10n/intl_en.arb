@@ -29,5 +29,7 @@
     "queueNumberText": "Queue Number: ",
     "closeShiftButton": "Close Shift",
     "sseDisconnection":"Disconnected from SSE",
-    "sseRestoration":"Connection restored successfully !"
+    "sseRestoration":"Connection restored successfully !",
+    "hubName":"Hub Name",
+    "todayOrders":"Today's Orders"
 }

@@ -29,5 +29,7 @@
     "queueNumberText": "رقم الدور: ",
     "closeShiftButton": "إغلاق الوردية",
     "sseDisconnection": "تم فصل الاتصال من SSE",
-    "sseRestoration": "تم استعادة الاتصال بنجاح !"
+    "sseRestoration": "تم استعادة الاتصال بنجاح !",
+    "hubName": "اسم المركز",
+    "todayOrders": "طلبات اليوم"
 }

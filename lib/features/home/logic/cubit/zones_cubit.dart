@@ -31,7 +31,7 @@ class ZonesCubit extends Cubit<ZonesState> {
     );
   }
 
-  void openShift(BuildContext context, int id,Position position) async {
+  void openShift(BuildContext context, int id,Position position,String hubName,int orders) async {
     emit(OpenShifLoading());
     final response = await repoImpl.startShift(id,position);
     response.fold(
@@ -44,7 +44,7 @@ class ZonesCubit extends Cubit<ZonesState> {
       },
       (r) {
 
-       navigateAndFinish(context, const OrdersScreen());
+       navigateAndFinish(context,OrdersScreen(hubName: hubName,todaysOrders: orders,));
        emit(OpenShiftSuccess());
       },
     );

@@ -56,7 +56,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
-  void claimOrder(BuildContext context, int id) async {
+  void claimOrder(BuildContext context, int id,String hubName, int orders) async {
     emit(ClaimOrderLoading());
     final response = await repo.claimOrder(id);
     response.fold(
@@ -67,7 +67,7 @@ class OrdersCubit extends Cubit<OrdersState> {
         ));
       },
       (r) {
-        navigateAndFinish(context, const OrderDetailsScreen());
+        navigateAndFinish(context,  OrderDetailsScreen(hubName: hubName,todaysOrders: orders,));
         emit(ClaimOrderSuccess());
       },
     );
@@ -103,7 +103,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     });
   }
 
-  void closeOrder(BuildContext context, int id) async {
+  void closeOrder(BuildContext context, int id,String hubName,int orders) async {
     emit(CloseOrderLoading());
     final response = await repo.closeOrder(id);
     response.fold(
@@ -115,7 +115,10 @@ class OrdersCubit extends Cubit<OrdersState> {
       },
       (r) {
         fetchQueueNumber();
-        navigateAndFinish(context, const OrdersScreen());
+        navigateAndFinish(context,  OrdersScreen(
+          hubName: hubName,
+          todaysOrders: orders,
+        ));
         emit(CloseOrderSuccess());
       },
     );

@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -28,14 +29,15 @@ class CheckingInfo extends StatelessWidget {
           if (state is InfoSuccess) {
             if (LoginCubit.get(context).model!.isInShift!) {
               if (LoginCubit.get(context).model!.currentOrderId! == 0) {
-                navigateAndFinish(context, const OrdersScreen());
+                navigateAndFinish(context, OrdersScreen(hubName: LoginCubit.get(context).model!.hubName!,todaysOrders: 10,));
               } else {
-                navigateAndFinish(context, const OrderDetailsScreen());
+                navigateAndFinish(context, OrderDetailsScreen(hubName: LoginCubit.get(context).model!.hubName!,todaysOrders: 10,));
               }
             } else {
               navigateTo(
                 context,
                 HomeScreen(
+                  hubName: LoginCubit.get(context).model!.hubName!,todaysOrders: 10,
                   id: LoginCubit.get(context).model!.id!,
                   position: LoginCubit.get(context).myPosition!,
                 ),
