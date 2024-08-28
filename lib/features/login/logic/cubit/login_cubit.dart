@@ -81,10 +81,10 @@ Future<LocationPermission> checkAndRequestPermissions() async {
   locationSettings = WebSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
-    maximumAge: Duration(minutes: 5),
+    maximumAge: const Duration(minutes: 5),
   );
 } else {
-  locationSettings = LocationSettings(
+  locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
@@ -100,7 +100,6 @@ Future<LocationPermission> checkAndRequestPermissions() async {
         desiredAccuracy: LocationAccuracy.high,
         locationSettings: locationSettings,
       );
-      print("Current Position: ${position.latitude}, ${position.longitude}");
       return position;
     } catch (e) {
       emit(GetLocationError("Failed to get location: $e"));
@@ -110,9 +109,7 @@ Future<LocationPermission> checkAndRequestPermissions() async {
 
   void handleLocationPermissions(BuildContext context) async {
     emit(GetLocationLoading());
-    print("Reached");
     Position? position = await getCurrentLocation();
-    print(position);
     if (position != null) {
       myPosition = position;
       emit(GetLocationSuccess(position: position));

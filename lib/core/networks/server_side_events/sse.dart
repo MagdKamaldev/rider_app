@@ -16,36 +16,35 @@ class SseService {
 
   Future<void> connectToSse() async {
     const sseUrl = '${ApiConstants.baseUrl}${ApiConstants.orderSse}';
-  try {
-    dio.get(
-      sseUrl,
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer $jwt',
-          'Accept': 'text/event-stream',
-        },
-        responseType: ResponseType.stream,
-      ),
-    ).then((response) {
-      _subscription = response.data.stream.listen(
-        (data) {
-          final event = String.fromCharCodes(data);
-          _controller.add(event);
-        },
-        onError: (error) {
-          _controller.addError(error);
-        },
-        onDone: () {
-          _controller.close();
-        },
-      );
-    });
-    
-  } catch (e) {
- print('Error connecting to SSE: $e');
-  }
-  
-  
+    try {
+      dio
+          .get(
+        sseUrl,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $jwt',
+            'Accept': 'text/event-stream',
+          },
+          responseType: ResponseType.stream,
+        ),
+      )
+          .then((response) {
+        _subscription = response.data.stream.listen(
+          (data) {
+            final event = String.fromCharCodes(data);
+            _controller.add(event);
+          },
+          onError: (error) {
+            _controller.addError(error);
+          },
+          onDone: () {
+            _controller.close();
+          },
+        );
+      });
+    } catch (e) {
+      print('Error connecting to SSE: $e');
+    }
   }
 
   void disconnectFromSse() {
