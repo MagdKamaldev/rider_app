@@ -21,7 +21,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   final SseService sseService = SseService(Dio(), kTokenBox.get(kTokenBoxString));
 
   void startListeningToOrders(context) {
-    sseService.connectToSse();
+    sseService.connectToSse(context: context);
     sseService.sseStream.listen(
       (event) {
         getOrders(context);

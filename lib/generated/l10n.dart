@@ -339,6 +339,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Disconnected from SSE`
+  String get sseDisconnection {
+    return Intl.message(
+      'Disconnected from SSE',
+      name: 'sseDisconnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection restored successfully !`
+  String get sseRestoration {
+    return Intl.message(
+      'Connection restored successfully !',
+      name: 'sseRestoration',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

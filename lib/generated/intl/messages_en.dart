@@ -51,6 +51,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "rejectButton": MessageLookupByLibrary.simpleMessage("Reject"),
         "selectZoneLabel": MessageLookupByLibrary.simpleMessage("Select a Hub"),
         "selectZoneTitle": MessageLookupByLibrary.simpleMessage("Select Hub"),
+        "sseDisconnection":
+            MessageLookupByLibrary.simpleMessage("Disconnected from SSE"),
+        "sseRestoration": MessageLookupByLibrary.simpleMessage(
+            "Connection restored successfully !"),
         "timeLabel": MessageLookupByLibrary.simpleMessage("Time:"),
         "unknownAddress":
             MessageLookupByLibrary.simpleMessage("Unknown Address"),

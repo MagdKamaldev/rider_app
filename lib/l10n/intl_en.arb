@@ -27,5 +27,7 @@
     "nA": "N/A",
     "ordersTitle": "Orders",
     "queueNumberText": "Queue Number: ",
-    "closeShiftButton": "Close Shift"
+    "closeShiftButton": "Close Shift",
+    "sseDisconnection":"Disconnected from SSE",
+    "sseRestoration":"Connection restored successfully !"
 }

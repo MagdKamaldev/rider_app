@@ -27,5 +27,7 @@
     "nA": "غير متوفر",
     "ordersTitle": "الطلبات",
     "queueNumberText": "رقم الدور: ",
-    "closeShiftButton": "إغلاق الوردية"
+    "closeShiftButton": "إغلاق الوردية",
+    "sseDisconnection": "تم فصل الاتصال من SSE",
+    "sseRestoration": "تم استعادة الاتصال بنجاح !"
 }

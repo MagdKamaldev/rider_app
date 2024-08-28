@@ -50,6 +50,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "rejectButton": MessageLookupByLibrary.simpleMessage("رفض"),
         "selectZoneLabel": MessageLookupByLibrary.simpleMessage("اختر مركز:"),
         "selectZoneTitle": MessageLookupByLibrary.simpleMessage("اختر المركز"),
+        "sseDisconnection":
+            MessageLookupByLibrary.simpleMessage("تم فصل الاتصال من SSE"),
+        "sseRestoration":
+            MessageLookupByLibrary.simpleMessage("تم استعادة الاتصال بنجاح !"),
         "timeLabel": MessageLookupByLibrary.simpleMessage("الوقت:"),
         "unknownAddress":
             MessageLookupByLibrary.simpleMessage("عنوان غير معروف"),
