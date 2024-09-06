@@ -85,7 +85,7 @@ class OrdersRepoImpl implements OrdersRepo {
 
   @override
   Future<Either<Failure, dynamic>> closeOrder(int id) async {
-    try {
+     try {
       final response = await apiServices.post(
           endPoint: ApiConstants.closeOrder,
           data: {"order_id": id},

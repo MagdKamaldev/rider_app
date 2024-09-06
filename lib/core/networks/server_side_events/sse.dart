@@ -2,10 +2,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:tayaar/core/components/shared_components.dart';
 import 'package:tayaar/core/networks/api_constants.dart';
 import 'package:tayaar/core/networks/errors/error_snckbar.dart';
-import 'package:tayaar/features/checkingInfo/checking_info_screen.dart';
 import 'package:tayaar/generated/l10n.dart';
 
 class SseService {
@@ -64,13 +62,9 @@ class SseService {
     _subscription?.cancel();
     _controller.addError(S.of(context).sseDisconnection);
 
-    if (retryCount < 5) {
       final delay = Duration(seconds: 2 * (retryCount + 1));
       Future.delayed(delay,
           () => connectToSse(retryCount: retryCount + 1, context: context));
-    } else {
-      navigateAndFinish(context, const CheckingInfo());
-    }
   }
 
   void disconnectFromSse() {

@@ -15,7 +15,9 @@ class OrdersScreen extends StatefulWidget {
   final String hubName;
   final int todaysOrders;
   const OrdersScreen(
-      {super.key, required this.hubName, required this.todaysOrders});
+      {super.key, 
+      required this.hubName, 
+      required this.todaysOrders});
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
@@ -25,32 +27,32 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     super.initState();
-    _startBackgroundLocationTracking();
+  //  _startBackgroundLocationTracking();
   }
 
-  Future<void> _startBackgroundLocationTracking() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse &&
-          permission != LocationPermission.always) {
-        // Handle the situation where the user denied the location permission
-        return;
-      }
-    }
+  // Future<void> _startBackgroundLocationTracking() async {
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied ||
+  //       permission == LocationPermission.deniedForever) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission != LocationPermission.whileInUse &&
+  //         permission != LocationPermission.always) {
+  //       // Handle the situation where the user denied the location permission
+  //       return;
+  //     }
+  //   }
 
-    // Start listening to the location in the background
-    Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 10, // distance in meters
-      ),
-    ).listen((Position position) {
-      // print("Current position: ${position.latitude}, ${position.longitude}");
-      // Here, you can make API calls to update the rider's location on the server.
-    });
-  }
+  //   // Start listening to the location in the background
+  //   Geolocator.getPositionStream(
+  //     locationSettings: const LocationSettings(
+  //       accuracy: LocationAccuracy.high,
+  //       distanceFilter: 10, // distance in meters
+  //     ),
+  //   ).listen((Position position) {
+  //     // print("Current position: ${position.latitude}, ${position.longitude}");
+  //     // Here, you can make API calls to update the rider's location on the server.
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,19 +118,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   const SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: defaultButton(
-                          function: () {
-                            context.read<OrdersCubit>().closeShift(context);
-                            navigateAndFinish(context, const CheckingInfo());
-                          },
-                          context: context,
-                          text: S
-                              .of(context)
-                              .closeShiftButton, // Use localized string
-                        ),
+                    child: Center(
+                      child: defaultButton(
+                        function: () {
+                          context.read<OrdersCubit>().closeShift(context);
+                          navigateAndFinish(context, const CheckingInfo());
+                        },
+                        context: context,
+                        text: S
+                            .of(context)
+                            .closeShiftButton, // Use localized string
                       ),
                     ),
                   ),

@@ -16,8 +16,9 @@ class OrdersCubit extends Cubit<OrdersState> {
   OrdersCubit(
     this.repo,
   ) : super(OrdersInitial());
-  static OrdersCubit get(context) => BlocProvider.of(context);
 
+  static OrdersCubit get(context) => BlocProvider.of(context);
+  
   final SseService sseService = SseService(Dio(), kTokenBox.get(kTokenBoxString));
 
   void startListeningToOrders(context) {
@@ -25,7 +26,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     sseService.sseStream.listen(
       (event) {
         getOrders(context);
-        fetchQueueNumber();
+        fetchQueueNumber(context);
       },
       onError: (error) {
         showErrorSnackbar(context, error.toString());
@@ -36,7 +37,6 @@ class OrdersCubit extends Cubit<OrdersState> {
   void stopListeningToOrders() {
     sseService.disconnectFromSse();
   }
-
 
   List<OrderModel> orders = [];
 
@@ -56,7 +56,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
-  void claimOrder(BuildContext context, int id,String hubName, int orders) async {
+  void claimOrder(BuildContext context, int id, String hubName, int orders) async {
     emit(ClaimOrderLoading());
     final response = await repo.claimOrder(id);
     response.fold(
@@ -67,7 +67,13 @@ class OrdersCubit extends Cubit<OrdersState> {
         ));
       },
       (r) {
-        navigateAndFinish(context,  OrderDetailsScreen(hubName: hubName,todaysOrders: orders,));
+        navigateAndFinish(
+          context,
+          OrderDetailsScreen(
+            hubName: hubName,
+            todaysOrders: orders,
+          ),
+        );
         emit(ClaimOrderSuccess());
       },
     );
@@ -103,7 +109,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     });
   }
 
-  void closeOrder(BuildContext context, int id,String hubName,int orders) async {
+  void closeOrder(BuildContext context, int id, String hubName, int orders) async {
     emit(CloseOrderLoading());
     final response = await repo.closeOrder(id);
     response.fold(
@@ -114,11 +120,14 @@ class OrdersCubit extends Cubit<OrdersState> {
         ));
       },
       (r) {
-        fetchQueueNumber();
-        navigateAndFinish(context,  OrdersScreen(
-          hubName: hubName,
-          todaysOrders: orders,
-        ));
+        fetchQueueNumber(context); // Re-fetch queue number after closing order
+        navigateAndFinish(
+          context,
+          OrdersScreen(
+            hubName: hubName,
+            todaysOrders: orders,
+          ),
+        );
         emit(CloseOrderSuccess());
       },
     );
@@ -126,7 +135,7 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   int? queueNumber;
 
-  Future<void> fetchQueueNumber() async {
+  Future<void> fetchQueueNumber(BuildContext context) async {
     emit(FetchQueueNumebrLoading());
     final response = await repo.fetchQueueNumber();
     response.fold(
@@ -137,6 +146,12 @@ class OrdersCubit extends Cubit<OrdersState> {
       (r) {
         queueNumber = r;
         emit(FetchQueueNumebrSuccess(queueNumber: r));
+        
+        // Check if queue number is zero
+        if (queueNumber == 0) {
+          stopListeningToOrders(); // Disconnect from SSE
+          startListeningToOrders(context); // Reconnect to SSE
+        }
         return;
       },
     );
